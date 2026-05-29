@@ -1,74 +1,79 @@
-# Plan — Build "Rakamin Workforce Intelligence" app from prototype + answers
 
-## Goal
-Turn `prototype.html` + the two datasets (`dataset_a_messy.json`, `dataset_b_clean.json`) into the actual running app inside this TanStack Start project, preserving the prototype's design system, navigation, and behavior — and surfacing the strategic answers from the 6 PDFs as in-app context where relevant (alert banners, methodology notes, role-obsolescence sources, etc.).
+# Redesign: Light Theme + Uber Type + Declutter
 
-## Scope
-Frontend-only. No backend, no auth, no DB. Datasets are bundled as static JSON imports. Design tokens come verbatim from the prototype (dark theme, Syne + DM Sans + DM Mono, `--ac:#4fffb0` accent, etc.) and are wired into `src/styles.css` as semantic tokens.
+Tujuannya bukan reskin — ini bongkar ulang taste & hierarchy. Sekarang appnya dark, padet teks, tiap page nembak 5-6 ide sekaligus. Habis ini: terang, lapang, satu pesan utama per page.
 
-## Information architecture (routes)
-App shell = sidebar + topbar + content (matches prototype 1:1).
+## Design system baru
 
-- `/` → **Overview** (KPI strip, top risk bar, branch distribution, data-health panel)
-- `/attrition` → **Attrition Risk** (filter bar All/High/Med/Low/Review, employee table, pagination)
-- `/review-queue` → **Review Queue** (cards with reason + recommended action; badge count in sidebar)
-- `/productivity` → **Productivity** (proxy-metrics methodology note + per-department signal grid)
-- `/reskilling` → **Reskilling Plan** (AI literacy + role-specific tracks, full table)
-- `/obsolescence` → **Role Obsolescence** (WEF/Gartner/McKinsey sourced cards, severity stats)
-- `/data-quality` → **Data Quality** (side-by-side Dataset A vs B + insight cards)
-- `/employees/$id` → **Employee detail page** (replaces the prototype's modal; current URL already points here)
+**Warna (broken white, Claude-ish):**
+- `--bg`: #F5F4EE (broken white, sedikit warm)
+- `--sf`: #FFFFFF (kartu/panel)
+- `--sf2`: #EFEDE4 (subtle surface, hover)
+- `--bd`: #E4E1D6 (border halus)
+- `--tx`: #1F1E1B (teks utama, hampir hitam tapi warm)
+- `--tx2`: #6B6A63 (teks sekunder)
+- `--tx3`: #9C9A90 (meta)
+- `--ac`: #C96442 (terracotta Claude-ish, dipakai hemat — CTA & highlight only)
+- `--dg`: #B83A26 (risk High)
+- `--wn`: #B7791F (risk Medium)
+- `--ok`: #3F7D58 (risk Low / positive)
+- `--in`: #2F5F8F (info / human review)
 
-Global UI state (sidebar):
-- **Dataset Mode** toggle (Messy ⇄ Clean) — persisted in URL search param `?ds=messy|clean` so the current route stays shareable; default `clean`.
-- Topbar shows mode chip + overall Data Quality % (85% clean / 36% messy as in prototype).
+Semua dipindah ke `src/styles.css` sebagai oklch tokens. Komponen lama yang hardcode `var(--bg)` dark akan auto-flip karena nama tokennya sama.
 
-## Data layer
-- `src/data/datasetClean.ts` and `src/data/datasetMessy.ts` — typed exports of the two JSON files (copied from the uploads).
-- `src/data/types.ts` — `EmployeeClean`, `EmployeeMessy` interfaces matching the JSON shapes (rakamin_id, skills_normalized[], risk_level, confidence fields, role_obsolescence_*, etc.).
-- `src/hooks/useDataset.ts` — reads `?ds=` from URL, returns active dataset + helpers (`byId`, `byBranch`, `byDepartment`, `byRisk`, `reviewQueue`, `obsolescenceGroups`).
-- All derived stats (KPIs, branch distributions, department signals, reskilling rollups) are computed client-side via `useMemo`.
+**Typography (Uber Move family):**
+- Heading display: **Uber Move** (kalau lisensi nggak ada di web font CDN, fallback ke **Inter Tight** dengan tracking ketat — visualnya 95% mirip Uber Move)
+- Body/UI: **Uber Move Text** → fallback **Inter**
+- Mono: **JetBrains Mono** (untuk ID & angka)
+- Scale dipangkas: hanya 5 ukuran (28 / 20 / 15 / 13 / 11), bukan 9 ukuran kayak sekarang
+- Numeric tabular by default untuk angka
 
-## Design system
-Port the prototype's CSS variables into `src/styles.css` using `oklch` semantic tokens:
-- `--background`, `--card`, `--card-2`, `--border`, `--border-strong`
-- `--foreground`, `--muted-foreground`, `--subtle-foreground`
-- `--accent` (mint), `--accent-soft`, `--warning` (amber), `--destructive` (coral), `--info` (blue), `--mobility` (purple), each with a `-soft` translucent companion
-- Fonts: load Syne (display), DM Sans (body), DM Mono (numbers) via `index.html` link tags. Map to Tailwind via `@theme` in `styles.css`.
-- Components: build thin wrappers (`StatCard`, `Panel`, `RiskBadge`, `ConfidenceBar`, `Pill`, `Alert` with `info/warn/danger/success` variants, `BarRow`) instead of inlining classes. shadcn `Table`, `Button`, `Badge` are restyled via tokens.
+Cara loadnya: `<link>` ke font yang available (Inter Tight + Inter dari Google Fonts), lalu di CSS aliasnya jadi `"Uber Move"` dengan `font-family: "Uber Move", "Inter Tight", system-ui`. Kalau nanti user upload file Uber Move beneran, tinggal `@font-face` swap.
 
-## Views — content parity with prototype + PDF answers
-1. **Overview** — 4 stat cards (Total / High Risk / Avg Confidence / Needs Review), top-3 risk-factor bars, per-branch stacked bar, data-health panel with confidence histogram.
-2. **Attrition** — filter bar, sortable table (Employee, Branch, Role, Risk score+badge, Confidence bar, top-3 skills, Flag), 20/page pagination, row click → `/employees/$id`.
-3. **Review Queue** — list of `needs_human_review === true` records as cards: name, role, reason, "Recommended Action" pulled from clean dataset fields; empty-state for messy mode.
-4. **Productivity** — methodology alert (verbatim from prototype/Part D), per-department panel: normalized performance avg, LMS engagement %, attrition concentration % — each with traffic-light dot.
-5. **Reskilling** — alert from Part E, two track cards (AI Literacy / Role-specific), table grouped by `job_title_normalized` with `training_weeks_estimated`, target skills, count of employees, urgency from obsolescence risk.
-6. **Obsolescence** — severity stats (Critical/High/Medium/Low counts), one card per `job_title_normalized` with probability bar, reason, replacement_technology, reskilling_path, timeline, source citation (WEF / Gartner / McKinsey / Deloitte from Part C & E).
-7. **Data Quality** — A vs B side-by-side: identity-resolved %, fields populated %, normalized skills %, confidence avg; risk-distribution bars; insight chips ("82% accuracy ≠ trustworthy without confidence", "Identity resolution unlocks 47 employees previously invisible", etc., sourced from Part B).
-8. **Employee detail** (`/employees/$id`) — full record: identity panel (rakamin_id + source IDs + confidence), skills (normalized + source + confidence), performance + CSAT + LMS, attrition card (score, level, factors, recommended action), mobility match, obsolescence outlook, raw vs normalized diff if in messy mode. Replaces the prototype's modal so deep links work.
+## Declutter prinsip
 
-## Strategic-document surface
-The 6 PDFs are not the product, but their key claims are folded into in-app callouts so the prototype "argues" the strategy:
-- Part A → Overview hero alert ("Reframe: not predicting attrition, deciding where humans add more value than statistics").
-- Part B → Data Quality view insights.
-- Part C → Confidence/uncertainty UI (every score has a confidence bar; sub-55% routes to Review Queue).
-- Part D → Productivity methodology note + decision-product framing on employee detail.
-- Part E → Reskilling tracks, 90-day milestone strip on Overview footer.
-- Part F → Footer "Platform reusability" mini-section on Overview (Medika today → Bank/Retail tomorrow).
+Setiap page sekarang aku audit dengan aturan **"satu pertanyaan, satu jawaban utama"**:
 
-## Technical details
-- **Stack:** TanStack Start (already scaffolded), Tailwind v4 via `src/styles.css`, shadcn primitives already present.
-- **Routes:** flat file-based — `src/routes/index.tsx`, `src/routes/attrition.tsx`, `src/routes/review-queue.tsx`, `src/routes/productivity.tsx`, `src/routes/reskilling.tsx`, `src/routes/obsolescence.tsx`, `src/routes/data-quality.tsx`, `src/routes/employees.$id.tsx`. Shared shell lives in `src/routes/__root.tsx` (sidebar + topbar + Outlet), with `errorComponent` + `notFoundComponent` set.
-- **Sidebar nav** uses `<Link>` with `activeProps` for the active style; review-queue badge reads from active dataset.
-- **Dataset toggle** uses `useNavigate({ search: prev => ({ ...prev, ds }) })` so it preserves route + params.
-- **Charts:** lightweight CSS bars (matches prototype) — no Recharts needed.
-- **No new deps** unless a font loader is preferred (use `<link>` in `__root.tsx` head).
-- **SEO:** each route sets its own `head()` with title + description.
+| Page | Pertanyaan utama | Yang dihapus / dipindah |
+|---|---|---|
+| Overview | Berapa employee at risk & kemana arah aksinya | Hero alert panjang → 1 kalimat. 90-day roadmap → dipindah ke section bawah collapsible. 4 stat card → 3 stat (gabung redundant) |
+| Attrition | Siapa yang harus di-action minggu ini | Filter berderet → 1 search + 2 dropdown. Kolom tabel: 10 → 6 |
+| Review Queue | Mana kasus yang nunggu manusia | Card → list row tipis. Reason di-truncate, expand on click |
+| Productivity | Department mana yang signalnya lemah | Methodology note panjang → tooltip ikon "?". Grid signal → 1 ranked list |
+| Reskilling | Track apa, siapa pesertanya | AI Literacy & role tracks → 2 tab, bukan 2 section stacked |
+| Obsolescence | Role mana yang risikonya kritis | Source cards (WEF/Gartner/McKinsey) → footnote kecil di bawah, bukan 3 kartu besar |
+| Data Quality | Sebelum vs sesudah cleaning | Side-by-side tetap, tapi insight chips dipangkas dari 6 → 3 |
+| Employee detail | Profil + rekomendasi aksi | Section dipersempit jadi 5 (sekarang 8), banyak panel digabung |
 
-## Out of scope (this pass)
-- Real backend / persistence
-- Editing data
-- Auth
-- Mobile redesign (prototype is desktop-first; we keep that, with sensible breakpoint collapse for sidebar < 1024px)
+## Layout shell
 
-## Deliverable
-A working app at `/` that mirrors the prototype's look, behavior, and content using the real datasets, plus a navigable employee detail page and dataset-mode toggle persisted via URL.
+- Sidebar tetap kiri, tapi lebih tipis (220px), label only, ikon dihapus (icon + label = noise di light theme)
+- Topbar: cuma page title + dataset toggle (messy/clean). Breadcrumb dihapus.
+- Content max-width: 1100px, padding generous (32px). Sekarang full-bleed bikin mata capek.
+- Card style: flat, 1px border, no shadow. Radius 8px. Hover = bg shift halus, bukan border glow.
+
+## Workflow eksekusi (di build mode)
+
+1. **Capture current state** — screenshot Overview & Attrition sekarang sebagai anchor
+2. **Generate 3 design directions** via `design--create_directions` dengan palette + font + layout intent yang udah dipin di atas (LOCKED — 3 variant cuma beda di density/composition/emphasis)
+3. **Tampilkan ke kamu** — pilih satu
+4. **Implement** direction yang dipilih:
+   - Rewrite `src/styles.css` dengan token light theme
+   - Update `src/components/ui-rakamin.tsx` (StatCard, RiskBadge, ConfidenceBar, Alert, Section) supaya minim-ink
+   - Rewrite `AppShell.tsx` untuk sidebar tipis + topbar minimal
+   - Per-page declutter sesuai tabel di atas (8 route files)
+   - Tambah `<link>` font di `__root.tsx`
+
+## Yang TIDAK berubah
+
+- Data layer (`src/data/*`) — tetap
+- Routing & dataset toggle logic — tetap
+- Isi informasi strategis (claim, angka, rekomendasi) — tetap akurat, cuma cara presentasinya yang dirombak
+
+## Risiko / trade-off yang perlu kamu setujui
+
+- **Uber Move font lisensi**: bukan open-source. Aku pakai Inter Tight sebagai stand-in yang visualnya sangat mirip. Kalau kamu punya file resmi, kasih ke aku nanti.
+- **Aksen warna minim**: terracotta cuma di CTA & High risk. Mungkin awal-awal kerasa "kurang berwarna" dibanding dark theme sekarang — itu intentional (Claude vibe).
+- **Beberapa info pindah ke collapsible / tooltip**, jadi butuh 1 klik ekstra. Trade-off untuk less cluttered.
+
+Approve plan ini dan aku langsung mulai dari step 1 (screenshot + generate 3 directions) di build mode.
