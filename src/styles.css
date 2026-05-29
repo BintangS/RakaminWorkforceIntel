@@ -16,43 +16,63 @@
   --color-card-foreground: var(--tx);
   --color-border: var(--bd);
   --color-primary: var(--ac);
-  --color-primary-foreground: var(--bg);
+  --color-primary-foreground: #ffffff;
   --color-secondary: var(--sf2);
   --color-secondary-foreground: var(--tx);
   --color-accent: var(--ac);
-  --color-accent-foreground: var(--bg);
+  --color-accent-foreground: #ffffff;
   --color-destructive: var(--dg);
-  --color-destructive-foreground: var(--tx);
-  --color-input: var(--bd2);
+  --color-destructive-foreground: #ffffff;
+  --color-input: var(--bd);
   --color-ring: var(--ac);
-  --font-display: "Syne", sans-serif;
-  --font-sans: "DM Sans", sans-serif;
-  --font-mono: "DM Mono", monospace;
+  --font-display: "Inter Tight", "Uber Move", system-ui, sans-serif;
+  --font-sans: "Inter", "Uber Move Text", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
 :root {
-  /* Rakamin Workforce Intelligence palette — ported from prototype */
-  --bg: #08090c;
-  --sf: #0f1117;
-  --sf2: #161820;
-  --sf3: #1c1f2a;
-  --bd: #1e2130;
-  --bd2: #252a3a;
-  --tx: #e2e4ec;
-  --tx2: #8890a8;
-  --tx3: #4a5068;
-  --ac: #4fffb0;
-  --ac2: rgba(79, 255, 176, 0.12);
-  --ac3: rgba(79, 255, 176, 0.22);
-  --wn: #ffb347;
-  --wn2: rgba(255, 179, 71, 0.12);
-  --dg: #ff5f6d;
-  --dg2: rgba(255, 95, 109, 0.12);
-  --in: #5b9cf6;
-  --in2: rgba(91, 156, 246, 0.12);
-  --pu: #a78bfa;
-  --pu2: rgba(167, 139, 250, 0.12);
-  --r: 10px;
+  /* Rakamin Workforce Intelligence — light "broken white" palette (Claude-ish) */
+  --bg: #F5F4EE;
+  --sf: #FFFFFF;
+  --sf2: #EFEDE4;
+  --sf3: #E8E5DA;
+  --bd: #E4E1D6;
+  --bd2: #D8D4C7;
+  --tx: #1F1E1B;
+  --tx2: #6B6A63;
+  --tx3: #9C9A90;
+
+  /* Brand accent — terracotta, used hemat (CTA + highlight only) */
+  --ac: #C96442;
+  --ac2: rgba(201, 100, 66, 0.10);
+  --ac3: rgba(201, 100, 66, 0.25);
+
+  /* Positive / low risk — forest green */
+  --ok: #3F7D58;
+  --ok2: rgba(63, 125, 88, 0.10);
+  --ok3: rgba(63, 125, 88, 0.25);
+
+  /* Warning / medium risk — burnt amber */
+  --wn: #B7791F;
+  --wn2: rgba(183, 121, 31, 0.10);
+  --wn3: rgba(183, 121, 31, 0.25);
+
+  /* Danger / high risk — deep red */
+  --dg: #B83A26;
+  --dg2: rgba(184, 58, 38, 0.10);
+  --dg3: rgba(184, 58, 38, 0.25);
+
+  /* Info / human review — calm navy */
+  --in: #2F5F8F;
+  --in2: rgba(47, 95, 143, 0.10);
+  --in3: rgba(47, 95, 143, 0.25);
+
+  /* Mobility / cross-functional — muted plum */
+  --pu: #7C5A8F;
+  --pu2: rgba(124, 90, 143, 0.10);
+  --pu3: rgba(124, 90, 143, 0.25);
+
+  --r: 8px;
   --rsm: 6px;
 }
 
@@ -64,15 +84,19 @@
     background-color: var(--bg);
     color: var(--tx);
     font-family: var(--font-sans);
-    font-size: 13.5px;
-    line-height: 1.5;
+    font-size: 14px;
+    line-height: 1.55;
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-  .mono { font-family: var(--font-mono); }
-  .display { font-family: var(--font-display); }
+  .mono { font-family: var(--font-mono); font-feature-settings: "tnum"; }
+  .display { font-family: var(--font-display); letter-spacing: -0.01em; }
+  .tnum { font-variant-numeric: tabular-nums; }
 }
 
-/* Custom scrollbar */
+/* Scrollbar — light & minimal */
 ::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--bd2); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--tx3); }
