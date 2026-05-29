@@ -77,7 +77,7 @@ function EmployeeDetail() {
           </div>
           {r.risk_factors?.length ? (
             <div className="space-y-1.5">
-              {r.risk_factors.map((f) => (
+              {r.risk_factors.map((f: string) => (
                 <div key={f} className="flex items-center gap-2 text-[12.5px]" style={{ color: "var(--tx2)" }}>
                   <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--dg)" }} />
                   {f}
@@ -114,13 +114,13 @@ function EmployeeDetail() {
         <Section title="Skills">
           <div className="flex flex-wrap">
             {(r.skills_normalized || []).length === 0 && <span className="italic" style={{ color: "var(--tx3)" }}>No skill data</span>}
-            {r.skills_normalized.map((s) => <SkillChip key={s} label={s} />)}
+            {r.skills_normalized.map((s: string) => <SkillChip key={s} label={s} />)}
           </div>
           {r.skill_gap_to_next_level?.length > 0 && (
             <div className="mt-3">
               <div className="mb-1 text-[10.5px] font-semibold uppercase tracking-wider" style={{ color: "var(--tx3)" }}>Gap to next level</div>
               <div className="flex flex-wrap">
-                {r.skill_gap_to_next_level.map((s) => <SkillChip key={s} label={s} tone="warning" />)}
+                {r.skill_gap_to_next_level.map((s: string) => <SkillChip key={s} label={s} tone="warning" />)}
               </div>
               <div className="mt-1 text-[11.5px]" style={{ color: "var(--tx3)" }}>Est. training: {r.training_weeks_estimated} weeks</div>
             </div>
@@ -151,7 +151,7 @@ function EmployeeDetail() {
               {r.mobility_gap_skills?.length ? (
                 <>
                   <div className="mt-2 text-[11px]" style={{ color: "var(--tx3)" }}>Gap skills:</div>
-                  <div className="mt-1 flex flex-wrap">{r.mobility_gap_skills.map((s) => <SkillChip key={s} label={s} />)}</div>
+                  <div className="mt-1 flex flex-wrap">{r.mobility_gap_skills.map((s: string) => <SkillChip key={s} label={s} />)}</div>
                 </>
               ) : null}
             </div>
