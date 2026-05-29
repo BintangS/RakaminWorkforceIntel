@@ -1,6 +1,8 @@
 # Rakamin — Workforce Intelligence Platform
 ### PM Case Study Submission · Medika Nusantara
 
+Website Link: https://rakaminwip.lovable.app
+
 > **Role:** Product Manager (AI-Native)  
 > **Engagement:** Rp 2.5B · 12 months · First C-suite milestone: Day 90  
 > **Tools used:** Claude Sonnet (ideation, writing, data analysis framing), Python (synthetic data generation), HTML/CSS/JS (prototype)
