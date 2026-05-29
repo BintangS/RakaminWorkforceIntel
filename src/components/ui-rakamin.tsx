@@ -82,8 +82,8 @@ export function RiskBadge({ level }: { level: "High" | "Medium" | "Low" }) {
 }
 
 export function ConfidenceBar({ value, width = 80 }: { value: number; width?: number }) {
+  const pct = Math.round(value * 100);
   const color = pct >= 75 ? "var(--ac)" : pct >= 55 ? "var(--wn)" : "var(--dg)";
-  const color = pct >= 75 ? "var(--ok)" : pct >= 55 ? "var(--wn)" : "var(--dg)";
   return (
     <div className="flex items-center gap-2">
       <div className="h-1.5 overflow-hidden rounded-full" style={{ width, background: "var(--sf2)" }}>
