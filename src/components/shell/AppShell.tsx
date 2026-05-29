@@ -121,7 +121,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               return (
                 <button
                   key={m}
-                  onClick={() => navigate({ to: ".", search: (prev: Record<string, unknown>) => ({ ...prev, ds: m }) as any })}
+                  onClick={() => navigate({ to: ".", search: ((prev: any) => ({ ...prev, ds: m })) as any })}
                   className="flex-1 rounded-[4px] px-2 py-1 text-[11.5px] font-medium transition-colors"
                   style={
                     on
