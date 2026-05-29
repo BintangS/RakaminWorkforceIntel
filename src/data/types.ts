@@ -1,0 +1,72 @@
+export type RiskLevel = "High" | "Medium" | "Low";
+export type ObsRisk = "Critical" | "Moderate" | "Low-Moderate" | "Low" | string;
+
+export interface EmployeeMessy {
+  hris_id: string;
+  ats_id: string | null;
+  name_hris: string;
+  name_ats: string | null;
+  branch: string;
+  department: string;
+  job_title_raw: string;
+  hire_date_hris: string;
+  hire_date_ats: string | null;
+  hire_date_conflict: boolean;
+  tenure_years: number;
+  skills_raw: string | null;
+  performance_rating_raw: string | null;
+  performance_scale: string | null;
+  performance_years_available: number;
+  lms_courses_completed: number;
+  lms_days_since_login: number | null;
+  avg_csat_score: number | null;
+  mentees_count: number | null;
+  identity_resolved: boolean;
+  data_source: string;
+}
+
+export interface EmployeeClean {
+  rakamin_id: string;
+  hris_id: string;
+  ats_id: string | null;
+  name_canonical: string;
+  branch: string;
+  department: string;
+  job_title_raw: string;
+  job_title_normalized: string;
+  hire_date_canonical: string;
+  hire_date_conflict_resolved: boolean;
+  tenure_years: number;
+  skills_normalized: string[];
+  skill_source: "direct" | "lms_inferred" | "role_inferred" | "peer_inferred" | string;
+  skill_confidence: number;
+  skill_gap_to_next_level: string[];
+  training_weeks_estimated: number;
+  performance_score_normalized: number | null;
+  performance_confidence: number;
+  performance_years_available: number;
+  lms_courses_completed: number;
+  lms_days_since_login: number | null;
+  avg_csat_score: number | null;
+  mentees_count: number | null;
+  identity_confidence: number;
+  data_confidence_overall: number;
+  attrition_risk_score: number;
+  risk_level: RiskLevel;
+  risk_factors: string[];
+  needs_human_review: boolean;
+  human_review_reason: string | null;
+  mobility_match_role: string | null;
+  mobility_match_score: number | null;
+  mobility_gap_skills: string[] | null;
+  promotion_ready: boolean;
+  promotion_note: string | null;
+  role_obsolescence_risk: ObsRisk;
+  role_obsolescence_probability_2yr: number;
+  role_obsolescence_reason: string;
+  role_replacement_technology: string;
+  role_reskilling_path: string;
+  role_obsolescence_timeline: string;
+  role_obsolescence_source: string;
+  identity_resolved: boolean;
+}

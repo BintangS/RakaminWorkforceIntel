@@ -9,38 +9,175 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ReviewQueueRouteImport } from './routes/review-queue'
+import { Route as ReskillingRouteImport } from './routes/reskilling'
+import { Route as ProductivityRouteImport } from './routes/productivity'
+import { Route as ObsolescenceRouteImport } from './routes/obsolescence'
+import { Route as DataQualityRouteImport } from './routes/data-quality'
+import { Route as AttritionRouteImport } from './routes/attrition'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EmployeesIdRouteImport } from './routes/employees.$id'
 
+const ReviewQueueRoute = ReviewQueueRouteImport.update({
+  id: '/review-queue',
+  path: '/review-queue',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReskillingRoute = ReskillingRouteImport.update({
+  id: '/reskilling',
+  path: '/reskilling',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductivityRoute = ProductivityRouteImport.update({
+  id: '/productivity',
+  path: '/productivity',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ObsolescenceRoute = ObsolescenceRouteImport.update({
+  id: '/obsolescence',
+  path: '/obsolescence',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DataQualityRoute = DataQualityRouteImport.update({
+  id: '/data-quality',
+  path: '/data-quality',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AttritionRoute = AttritionRouteImport.update({
+  id: '/attrition',
+  path: '/attrition',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EmployeesIdRoute = EmployeesIdRouteImport.update({
+  id: '/employees/$id',
+  path: '/employees/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/attrition': typeof AttritionRoute
+  '/data-quality': typeof DataQualityRoute
+  '/obsolescence': typeof ObsolescenceRoute
+  '/productivity': typeof ProductivityRoute
+  '/reskilling': typeof ReskillingRoute
+  '/review-queue': typeof ReviewQueueRoute
+  '/employees/$id': typeof EmployeesIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/attrition': typeof AttritionRoute
+  '/data-quality': typeof DataQualityRoute
+  '/obsolescence': typeof ObsolescenceRoute
+  '/productivity': typeof ProductivityRoute
+  '/reskilling': typeof ReskillingRoute
+  '/review-queue': typeof ReviewQueueRoute
+  '/employees/$id': typeof EmployeesIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/attrition': typeof AttritionRoute
+  '/data-quality': typeof DataQualityRoute
+  '/obsolescence': typeof ObsolescenceRoute
+  '/productivity': typeof ProductivityRoute
+  '/reskilling': typeof ReskillingRoute
+  '/review-queue': typeof ReviewQueueRoute
+  '/employees/$id': typeof EmployeesIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/attrition'
+    | '/data-quality'
+    | '/obsolescence'
+    | '/productivity'
+    | '/reskilling'
+    | '/review-queue'
+    | '/employees/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/attrition'
+    | '/data-quality'
+    | '/obsolescence'
+    | '/productivity'
+    | '/reskilling'
+    | '/review-queue'
+    | '/employees/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/attrition'
+    | '/data-quality'
+    | '/obsolescence'
+    | '/productivity'
+    | '/reskilling'
+    | '/review-queue'
+    | '/employees/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AttritionRoute: typeof AttritionRoute
+  DataQualityRoute: typeof DataQualityRoute
+  ObsolescenceRoute: typeof ObsolescenceRoute
+  ProductivityRoute: typeof ProductivityRoute
+  ReskillingRoute: typeof ReskillingRoute
+  ReviewQueueRoute: typeof ReviewQueueRoute
+  EmployeesIdRoute: typeof EmployeesIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/review-queue': {
+      id: '/review-queue'
+      path: '/review-queue'
+      fullPath: '/review-queue'
+      preLoaderRoute: typeof ReviewQueueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reskilling': {
+      id: '/reskilling'
+      path: '/reskilling'
+      fullPath: '/reskilling'
+      preLoaderRoute: typeof ReskillingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/productivity': {
+      id: '/productivity'
+      path: '/productivity'
+      fullPath: '/productivity'
+      preLoaderRoute: typeof ProductivityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/obsolescence': {
+      id: '/obsolescence'
+      path: '/obsolescence'
+      fullPath: '/obsolescence'
+      preLoaderRoute: typeof ObsolescenceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/data-quality': {
+      id: '/data-quality'
+      path: '/data-quality'
+      fullPath: '/data-quality'
+      preLoaderRoute: typeof DataQualityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/attrition': {
+      id: '/attrition'
+      path: '/attrition'
+      fullPath: '/attrition'
+      preLoaderRoute: typeof AttritionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +185,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/employees/$id': {
+      id: '/employees/$id'
+      path: '/employees/$id'
+      fullPath: '/employees/$id'
+      preLoaderRoute: typeof EmployeesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AttritionRoute: AttritionRoute,
+  DataQualityRoute: DataQualityRoute,
+  ObsolescenceRoute: ObsolescenceRoute,
+  ProductivityRoute: ProductivityRoute,
+  ReskillingRoute: ReskillingRoute,
+  ReviewQueueRoute: ReviewQueueRoute,
+  EmployeesIdRoute: EmployeesIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
