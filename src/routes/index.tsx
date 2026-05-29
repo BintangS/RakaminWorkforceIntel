@@ -147,16 +147,14 @@ function Overview() {
           className="flex items-center gap-3 rounded-full border px-4 py-2"
           style={{ background: "var(--sf)", borderColor: "var(--bd)" }}
         >
+          <span className="text-[10.5px] font-semibold uppercase tracking-[0.08em]" style={{ color: "var(--tx3)" }}>
+            Data Health
+          </span>
           <span className="text-[11.5px]" style={{ color: "var(--tx2)" }}>
             Skills <span className="font-semibold" style={{ color: ds === "clean" ? "var(--ac)" : "var(--dg)" }}>{ds === "clean" ? "100%" : `${200 - stats.ms}/200`}</span>
           </span>
           <span className="text-[11.5px]" style={{ color: "var(--tx2)" }}>
             Identity <span className="font-semibold" style={{ color: ds === "clean" ? "var(--ac)" : "var(--dg)" }}>{ds === "clean" ? "Verified" : "Partial"}</span>
-          </span>
-            Skills <span className="font-semibold" style={{ color: ds === "clean" ? "var(--ok)" : "var(--dg)" }}>{ds === "clean" ? "100%" : `${200 - stats.ms}/200`}</span>
-          </span>
-          <span className="text-[11.5px]" style={{ color: "var(--tx2)" }}>
-            Identity <span className="font-semibold" style={{ color: ds === "clean" ? "var(--ok)" : "var(--dg)" }}>{ds === "clean" ? "Verified" : "Partial"}</span>
           </span>
           <span className="text-[11.5px]" style={{ color: "var(--tx2)" }}>
             Obsolescence <span className="font-semibold" style={{ color: "var(--dg)" }}>30 high</span>
