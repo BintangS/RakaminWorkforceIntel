@@ -15,17 +15,17 @@
   --color-card: var(--sf);
   --color-card-foreground: var(--tx);
   --color-border: var(--bd);
-  --color-primary: var(--ac);
+  --color-primary: var(--brand);
   --color-primary-foreground: #ffffff;
   --color-secondary: var(--sf2);
   --color-secondary-foreground: var(--tx);
-  --color-accent: var(--ac);
+  --color-accent: var(--brand);
   --color-accent-foreground: #ffffff;
   --color-destructive: var(--dg);
   --color-destructive-foreground: #ffffff;
   --color-input: var(--bd);
   --color-ring: var(--ac);
-  --font-display: "Inter Tight", "Uber Move", system-ui, sans-serif;
+  --color-ring: var(--brand);
   --font-sans: "Inter", "Uber Move Text", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
@@ -42,15 +42,15 @@
   --tx2: #6B6A63;
   --tx3: #9C9A90;
 
-  /* Brand accent — terracotta, used hemat (CTA + highlight only) */
-  --ac: #C96442;
-  --ac2: rgba(201, 100, 66, 0.10);
-  --ac3: rgba(201, 100, 66, 0.25);
+  /* Brand CTA — terracotta (Claude-ish). Used ONLY on primary CTAs. */
+  --brand: #C96442;
+  --brand2: rgba(201, 100, 66, 0.10);
+  --brand3: rgba(201, 100, 66, 0.25);
 
-  /* Positive / low risk — forest green */
-  --ok: #3F7D58;
-  --ok2: rgba(63, 125, 88, 0.10);
-  --ok3: rgba(63, 125, 88, 0.25);
+  /* Positive / success / low risk — forest green. Mapped to legacy --ac. */
+  --ac: #3F7D58;
+  --ac2: rgba(63, 125, 88, 0.10);
+  --ac3: rgba(63, 125, 88, 0.25);
 
   /* Warning / medium risk — burnt amber */
   --wn: #B7791F;

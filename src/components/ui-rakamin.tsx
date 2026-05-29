@@ -7,7 +7,7 @@ const TONE_MAP: Record<Tone, { fg: string; bg: string; border: string }> = {
   danger: { fg: "var(--dg)", bg: "var(--dg2)", border: "var(--dg3)" },
   warning: { fg: "var(--wn)", bg: "var(--wn2)", border: "var(--wn3)" },
   info: { fg: "var(--in)", bg: "var(--in2)", border: "var(--in3)" },
-  success: { fg: "var(--ok)", bg: "var(--ok2)", border: "var(--ok3)" },
+  success: { fg: "var(--ac)", bg: "var(--ac2)", border: "var(--ac3)" },
   mobility: { fg: "var(--pu)", bg: "var(--pu2)", border: "var(--pu3)" },
 };
 
@@ -82,7 +82,7 @@ export function RiskBadge({ level }: { level: "High" | "Medium" | "Low" }) {
 }
 
 export function ConfidenceBar({ value, width = 80 }: { value: number; width?: number }) {
-  const pct = Math.round(value * 100);
+  const color = pct >= 75 ? "var(--ac)" : pct >= 55 ? "var(--wn)" : "var(--dg)";
   const color = pct >= 75 ? "var(--ok)" : pct >= 55 ? "var(--wn)" : "var(--dg)";
   return (
     <div className="flex items-center gap-2">

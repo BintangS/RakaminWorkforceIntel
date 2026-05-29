@@ -154,10 +154,10 @@ export function AppShell({ children }: { children: ReactNode }) {
             className="text-[11px] font-medium uppercase tracking-[0.08em]"
             style={{ color: search.ds === "clean" ? "var(--ok)" : "var(--dg)" }}
           >
-            {search.ds === "clean" ? "Post-processing" : "Raw source"}
-          </div>
-        </header>
-        <div className="flex-1 overflow-y-auto px-10 py-10">{children}</div>
+          <div
+            className="text-[11px] font-medium uppercase tracking-[0.08em]"
+            style={{ color: search.ds === "clean" ? "var(--ac)" : "var(--dg)" }}
+          >
       </main>
     </div>
   );

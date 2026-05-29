@@ -76,7 +76,7 @@ function Overview() {
                 <div className="text-[10.5px] font-semibold uppercase tracking-[0.12em]" style={{ color: "var(--tx3)" }}>
                   Data confidence
                 </div>
-                <div className="mono tnum mt-1.5 text-[26px] font-medium" style={{ color: ds === "clean" ? "var(--ok)" : "var(--dg)" }}>
+                <div className="mono tnum mt-1.5 text-[26px] font-medium" style={{ color: ds === "clean" ? "var(--ac)" : "var(--dg)" }}>
                   {ds === "clean" ? `${stats.ac}%` : "31%"}
                 </div>
               </div>
@@ -122,7 +122,7 @@ function Overview() {
                   <div className="flex h-1.5 w-full overflow-hidden rounded-full" style={{ background: "var(--bg)" }}>
                     <div className="h-full" style={{ width: w(c.High), background: "var(--dg)" }} />
                     <div className="h-full" style={{ width: w(c.Medium), background: "var(--wn)" }} />
-                    <div className="h-full" style={{ width: w(c.Low), background: "var(--ok)" }} />
+                    <div className="h-full" style={{ width: w(c.Low), background: "var(--ac)" }} />
                   </div>
                 </div>
               );
@@ -147,10 +147,12 @@ function Overview() {
           className="flex items-center gap-3 rounded-full border px-4 py-2"
           style={{ background: "var(--sf)", borderColor: "var(--bd)" }}
         >
-          <span className="text-[10.5px] font-semibold uppercase tracking-[0.08em]" style={{ color: "var(--tx3)" }}>
-            Data Health
+          <span className="text-[11.5px]" style={{ color: "var(--tx2)" }}>
+            Skills <span className="font-semibold" style={{ color: ds === "clean" ? "var(--ac)" : "var(--dg)" }}>{ds === "clean" ? "100%" : `${200 - stats.ms}/200`}</span>
           </span>
           <span className="text-[11.5px]" style={{ color: "var(--tx2)" }}>
+            Identity <span className="font-semibold" style={{ color: ds === "clean" ? "var(--ac)" : "var(--dg)" }}>{ds === "clean" ? "Verified" : "Partial"}</span>
+          </span>
             Skills <span className="font-semibold" style={{ color: ds === "clean" ? "var(--ok)" : "var(--dg)" }}>{ds === "clean" ? "100%" : `${200 - stats.ms}/200`}</span>
           </span>
           <span className="text-[11.5px]" style={{ color: "var(--tx2)" }}>
@@ -174,7 +176,7 @@ function Overview() {
           to="/attrition"
           search={(prev: Record<string, unknown>) => ({ ...prev, ds })}
           className="ml-auto rounded-full px-5 py-2 text-[12.5px] font-semibold transition-opacity hover:opacity-90"
-          style={{ background: "var(--ac)", color: "#fff" }}
+          style={{ background: "var(--brand)", color: "#fff" }}
         >
           Generate Action Plan
         </Link>
@@ -189,7 +191,7 @@ function Overview() {
             ["Days 61–90", "Productivity proxy dashboards per department, mobility matches, mandatory AI-literacy enrollment."],
           ].map(([w, t]) => (
             <div key={w} className="rounded-[8px] border p-4" style={{ background: "var(--sf)", borderColor: "var(--bd)" }}>
-              <div className="text-[10.5px] font-semibold uppercase tracking-[0.08em]" style={{ color: "var(--ac)" }}>{w}</div>
+              <div className="text-[10.5px] font-semibold uppercase tracking-[0.08em]" style={{ color: "var(--brand)" }}>{w}</div>
               <p className="mt-2 text-[12.5px] leading-relaxed" style={{ color: "var(--tx2)" }}>{t}</p>
             </div>
           ))}
