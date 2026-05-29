@@ -26,7 +26,7 @@ export const Route = createFileRoute("/employees/$id")({
 });
 
 function EmployeeDetail() {
-  const { emp: r } = Route.useLoaderData();
+  const { emp: r } = Route.useLoaderData() as { emp: EmployeeClean };
   const cp = Math.round(r.data_confidence_overall * 100);
   const idc = Math.round(r.identity_confidence * 100);
   const skc = Math.round(r.skill_confidence * 100);
