@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { findEmployee } from "@/data/datasets";
+import type { EmployeeClean } from "@/data/types";
 import { Avatar, RiskBadge, SkillChip } from "@/components/ui-rakamin";
 
 export const Route = createFileRoute("/employees/$id")({
@@ -25,7 +26,7 @@ export const Route = createFileRoute("/employees/$id")({
 });
 
 function EmployeeDetail() {
-  const { emp: r } = Route.useLoaderData();
+  const { emp: r } = Route.useLoaderData() as { emp: EmployeeClean };
   const cp = Math.round(r.data_confidence_overall * 100);
   const idc = Math.round(r.identity_confidence * 100);
   const skc = Math.round(r.skill_confidence * 100);
