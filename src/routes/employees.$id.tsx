@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { findEmployee } from "@/data/datasets";
+import type { EmployeeClean } from "@/data/types";
 import { Avatar, RiskBadge, SkillChip } from "@/components/ui-rakamin";
 
 export const Route = createFileRoute("/employees/$id")({
