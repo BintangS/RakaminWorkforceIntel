@@ -1,6 +1,7 @@
 import { Link, useLocation, useSearch, useNavigate } from "@tanstack/react-router";
 import { reviewQueueCount } from "@/data/datasets";
 import type { ReactNode } from "react";
+import rakaminLogo from "@/assets/rakamin-logo.png";
 import {
   LayoutDashboard,
   AlertTriangle,
