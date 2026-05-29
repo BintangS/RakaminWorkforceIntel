@@ -9,8 +9,26 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ReviewQueueRouteImport } from './routes/review-queue'
+import { Route as DataQualityRouteImport } from './routes/data-quality'
+import { Route as AttritionRouteImport } from './routes/attrition'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ReviewQueueRoute = ReviewQueueRouteImport.update({
+  id: '/review-queue',
+  path: '/review-queue',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DataQualityRoute = DataQualityRouteImport.update({
+  id: '/data-quality',
+  path: '/data-quality',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AttritionRoute = AttritionRouteImport.update({
+  id: '/attrition',
+  path: '/attrition',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +37,61 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/attrition': typeof AttritionRoute
+  '/data-quality': typeof DataQualityRoute
+  '/review-queue': typeof ReviewQueueRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/attrition': typeof AttritionRoute
+  '/data-quality': typeof DataQualityRoute
+  '/review-queue': typeof ReviewQueueRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/attrition': typeof AttritionRoute
+  '/data-quality': typeof DataQualityRoute
+  '/review-queue': typeof ReviewQueueRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/attrition' | '/data-quality' | '/review-queue'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/attrition' | '/data-quality' | '/review-queue'
+  id: '__root__' | '/' | '/attrition' | '/data-quality' | '/review-queue'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AttritionRoute: typeof AttritionRoute
+  DataQualityRoute: typeof DataQualityRoute
+  ReviewQueueRoute: typeof ReviewQueueRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/review-queue': {
+      id: '/review-queue'
+      path: '/review-queue'
+      fullPath: '/review-queue'
+      preLoaderRoute: typeof ReviewQueueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/data-quality': {
+      id: '/data-quality'
+      path: '/data-quality'
+      fullPath: '/data-quality'
+      preLoaderRoute: typeof DataQualityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/attrition': {
+      id: '/attrition'
+      path: '/attrition'
+      fullPath: '/attrition'
+      preLoaderRoute: typeof AttritionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,7 +104,20 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AttritionRoute: AttritionRoute,
+  DataQualityRoute: DataQualityRoute,
+  ReviewQueueRoute: ReviewQueueRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
