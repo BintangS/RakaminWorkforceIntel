@@ -74,7 +74,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   <Link
                     key={item.to}
                     to={item.to}
-                    search={(prev) => ({ ...(prev as object), ds: search.ds })}
+                    search={(prev: Record<string, unknown>) => ({ ...prev, ds: search.ds })}
                     className="mb-px flex items-center gap-2.5 rounded-[6px] border px-3 py-2 text-[13px] transition-colors"
                     style={
                       active
@@ -109,7 +109,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               return (
                 <button
                   key={m}
-                  onClick={() => navigate({ to: ".", search: (prev) => ({ ...(prev as object), ds: m }) as any })}
+                  onClick={() => navigate({ to: ".", search: (prev: Record<string, unknown>) => ({ ...prev, ds: m }) as any })}
                   className="flex-1 rounded-md px-2 py-1.5 text-[11.5px] font-medium transition-colors"
                   style={
                     on
