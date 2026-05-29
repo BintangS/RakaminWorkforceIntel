@@ -1,6 +1,7 @@
 import { Link, useLocation, useSearch, useNavigate } from "@tanstack/react-router";
 import { reviewQueueCount } from "@/data/datasets";
 import type { ReactNode } from "react";
+import rakaminLogo from "@/assets/rakamin-logo.png";
 import {
   LayoutDashboard,
   AlertTriangle,
@@ -65,13 +66,17 @@ export function AppShell({ children }: { children: ReactNode }) {
         style={{ background: "var(--bg)", borderColor: "var(--bd)" }}
       >
         <div className="px-6 pb-10 pt-8">
-          <div className="display text-[16px] font-bold tracking-tight" style={{ color: "var(--tx)" }}>
-            Rakamin
+          <div className="flex items-center gap-2">
+            <img src={rakaminLogo} alt="Rakamin" className="h-6 w-6 rounded-[5px] object-contain" />
+            <div className="display text-[16px] font-bold tracking-tight" style={{ color: "var(--tx)" }}>
+              Rakamin
+            </div>
           </div>
-          <div className="mt-0.5 text-[10.5px] font-medium uppercase tracking-[0.12em]" style={{ color: "var(--tx3)" }}>
+          <div className="mt-1.5 text-[10.5px] font-medium uppercase tracking-[0.12em]" style={{ color: "var(--tx3)" }}>
             Workforce Intel
           </div>
         </div>
+
 
         <nav className="flex-1 px-3">
           {NAV_GROUPS.map((g, gi) => (
