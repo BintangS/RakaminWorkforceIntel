@@ -11,7 +11,22 @@ export const Route = createFileRoute("/attrition")({
 });
 
 const PAGE = 20;
-type Filter = "all" | "High" | "Medium" | "Low" | "review";
+type Filter = "all" | "High" | "Medium" | "Low" | "review" | "tierA" | "tierB" | "tierC" | "tierD";
+
+function tierColor(t?: string | null) {
+  return t === "A" ? "var(--ac)" : t === "B" ? "var(--in)" : t === "C" ? "var(--wn)" : t === "D" ? "var(--dg)" : "var(--tx3)";
+}
+function tierBg(t?: string | null) {
+  return t === "A" ? "var(--ac2)" : t === "B" ? "var(--in2)" : t === "C" ? "var(--wn2)" : t === "D" ? "var(--dg2)" : "var(--sf3)";
+}
+function TierBadge({ tier }: { tier?: string | null }) {
+  if (!tier) return <span style={{ color: "var(--tx3)" }}>—</span>;
+  return (
+    <span className="display rounded-md px-1.5 py-0.5 text-[11px] font-extrabold" style={{ background: tierBg(tier), color: tierColor(tier) }}>
+      {tier}
+    </span>
+  );
+}
 
 function Attrition() {
   const { ds } = useSearch({ from: "__root__" });
