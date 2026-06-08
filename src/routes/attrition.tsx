@@ -123,7 +123,7 @@ function Attrition() {
         <table className="w-full text-[12.5px]">
           <thead style={{ background: "var(--sf2)" }}>
             <tr style={{ color: "var(--tx3)" }}>
-              {["Employee", "Branch", "Role", "Attrition Risk", "Data Confidence", "Skills", "Flag"].map((h) => (
+              {["Employee", "Branch", "Role", "Tier", "Attrition Risk", "Data Confidence", "Skills", "Flag"].map((h) => (
                 <th key={h} className="px-3 py-2.5 text-left text-[10.5px] uppercase tracking-wider">{h}</th>
               ))}
             </tr>
