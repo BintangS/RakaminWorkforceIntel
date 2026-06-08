@@ -91,6 +91,10 @@ function Attrition() {
           ["Medium", "🟡 Medium"],
           ["Low", "🟢 Low"],
           ["review", "⚑ Review Flagged"],
+          ["tierA", "A · Exceed"],
+          ["tierB", "B · Meets"],
+          ["tierC", "C · Below"],
+          ["tierD", "D · Poor"],
         ].map(([k, lbl]) => {
           const on = filter === k;
           return (
