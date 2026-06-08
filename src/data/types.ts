@@ -69,4 +69,8 @@ export interface EmployeeClean {
   role_obsolescence_timeline: string;
   role_obsolescence_source: string;
   identity_resolved: boolean;
+  performance_tier?: "A" | "B" | "C" | "D" | null;
+  performance_tier_label?: string | null;
+  performance_action?: string | null;
+  performance_urgency?: "low" | "medium" | "high" | "critical" | string | null;
 }
