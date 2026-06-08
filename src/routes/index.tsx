@@ -23,7 +23,11 @@ function Overview() {
     const ac = Math.round((DB.reduce((s, r) => s + r.data_confidence_overall, 0) / DB.length) * 100);
     const ms = DA.filter((r) => !r.skills_raw).length;
     const inf = DB.filter((r) => r.skill_source !== "direct").length;
-    return { hi, rc, ac, ms, inf };
+    const tA = DB.filter((r) => r.performance_tier === "A").length;
+    const tB = DB.filter((r) => r.performance_tier === "B").length;
+    const tC = DB.filter((r) => r.performance_tier === "C").length;
+    const tD = DB.filter((r) => r.performance_tier === "D").length;
+    return { hi, rc, ac, ms, inf, tA, tB, tC, tD };
   }, []);
 
   const branches = useMemo(() => {
