@@ -23,7 +23,11 @@ function Overview() {
     const ac = Math.round((DB.reduce((s, r) => s + r.data_confidence_overall, 0) / DB.length) * 100);
     const ms = DA.filter((r) => !r.skills_raw).length;
     const inf = DB.filter((r) => r.skill_source !== "direct").length;
-    return { hi, rc, ac, ms, inf };
+    const tA = DB.filter((r) => r.performance_tier === "A").length;
+    const tB = DB.filter((r) => r.performance_tier === "B").length;
+    const tC = DB.filter((r) => r.performance_tier === "C").length;
+    const tD = DB.filter((r) => r.performance_tier === "D").length;
+    return { hi, rc, ac, ms, inf, tA, tB, tC, tD };
   }, []);
 
   const branches = useMemo(() => {
@@ -141,7 +145,40 @@ function Overview() {
         </div>
       </div>
 
+      {/* Performance tier distribution */}
+      <div className="mt-8 rounded-[8px] border p-5" style={{ background: "var(--sf)", borderColor: "var(--bd)" }}>
+        <div className="mb-4 flex items-center justify-between">
+          <div className="display text-[13px] font-semibold tracking-tight" style={{ color: "var(--tx)" }}>
+            Performance tier distribution
+          </div>
+          <span className="text-[11px]" style={{ color: "var(--tx3)" }}>A 85–100 · B 70–84 · C 55–69 · D 0–54</span>
+        </div>
+        <div className="grid grid-cols-4 gap-3">
+          {([
+            ["A", "Exceed → Promote", stats.tA, "var(--ac)", "var(--ac2)"],
+            ["B", "Meets → Internal Movement", stats.tB, "var(--in)", "var(--in2)"],
+            ["C", "Below → PIP if no improvement", stats.tC, "var(--wn)", "var(--wn2)"],
+            ["D", "Poor → PIP Immediately", stats.tD, "var(--dg)", "var(--dg2)"],
+          ] as const).map(([t, lbl, n, col, bg]) => (
+            <Link
+              key={t}
+              to="/attrition"
+              search={(prev: Record<string, unknown>) => ({ ...prev, ds })}
+              className="rounded-[8px] border p-4 transition-opacity hover:opacity-90"
+              style={{ background: bg, borderColor: `${col}33` }}
+            >
+              <div className="flex items-baseline gap-2">
+                <span className="display text-[28px] font-extrabold" style={{ color: col }}>{t}</span>
+                <span className="mono tnum text-[20px] font-semibold" style={{ color: col }}>{n}</span>
+              </div>
+              <div className="mt-1 text-[11.5px]" style={{ color: "var(--tx2)" }}>{lbl}</div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
       {/* Footer chips */}
+
       <div className="mt-10 flex flex-wrap items-center gap-3">
         <div
           className="flex items-center gap-3 rounded-full border px-4 py-2"

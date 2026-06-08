@@ -11,7 +11,22 @@ export const Route = createFileRoute("/attrition")({
 });
 
 const PAGE = 20;
-type Filter = "all" | "High" | "Medium" | "Low" | "review";
+type Filter = "all" | "High" | "Medium" | "Low" | "review" | "tierA" | "tierB" | "tierC" | "tierD";
+
+function tierColor(t?: string | null) {
+  return t === "A" ? "var(--ac)" : t === "B" ? "var(--in)" : t === "C" ? "var(--wn)" : t === "D" ? "var(--dg)" : "var(--tx3)";
+}
+function tierBg(t?: string | null) {
+  return t === "A" ? "var(--ac2)" : t === "B" ? "var(--in2)" : t === "C" ? "var(--wn2)" : t === "D" ? "var(--dg2)" : "var(--sf3)";
+}
+function TierBadge({ tier }: { tier?: string | null }) {
+  if (!tier) return <span style={{ color: "var(--tx3)" }}>—</span>;
+  return (
+    <span className="display rounded-md px-1.5 py-0.5 text-[11px] font-extrabold" style={{ background: tierBg(tier), color: tierColor(tier) }}>
+      {tier}
+    </span>
+  );
+}
 
 function Attrition() {
   const { ds } = useSearch({ from: "__root__" });
@@ -20,6 +35,10 @@ function Attrition() {
 
   const filtered = useMemo(() => {
     if (filter === "review") return DB.filter((r) => r.needs_human_review);
+    if (filter === "tierA") return DB.filter((r) => r.performance_tier === "A");
+    if (filter === "tierB") return DB.filter((r) => r.performance_tier === "B");
+    if (filter === "tierC") return DB.filter((r) => r.performance_tier === "C");
+    if (filter === "tierD") return DB.filter((r) => r.performance_tier === "D");
     if (filter === "all") return DB;
     return DB.filter((r) => r.risk_level === filter);
   }, [filter]);
@@ -72,6 +91,10 @@ function Attrition() {
           ["Medium", "🟡 Medium"],
           ["Low", "🟢 Low"],
           ["review", "⚑ Review Flagged"],
+          ["tierA", "A · Exceed"],
+          ["tierB", "B · Meets"],
+          ["tierC", "C · Below"],
+          ["tierD", "D · Poor"],
         ].map(([k, lbl]) => {
           const on = filter === k;
           return (
@@ -100,7 +123,7 @@ function Attrition() {
         <table className="w-full text-[12.5px]">
           <thead style={{ background: "var(--sf2)" }}>
             <tr style={{ color: "var(--tx3)" }}>
-              {["Employee", "Branch", "Role", "Attrition Risk", "Data Confidence", "Skills", "Flag"].map((h) => (
+              {["Employee", "Branch", "Role", "Tier", "Attrition Risk", "Data Confidence", "Skills", "Flag"].map((h) => (
                 <th key={h} className="px-3 py-2.5 text-left text-[10.5px] uppercase tracking-wider">{h}</th>
               ))}
             </tr>
@@ -116,6 +139,7 @@ function Attrition() {
                 </td>
                 <td className="px-3 py-2.5" style={{ color: "var(--tx2)" }}>{r.branch}</td>
                 <td className="px-3 py-2.5" style={{ color: "var(--tx2)" }}>{r.job_title_normalized}</td>
+                <td className="px-3 py-2.5"><TierBadge tier={r.performance_tier} /></td>
                 <td className="px-3 py-2.5">
                   <div className="flex items-center gap-2">
                     <RiskBadge level={r.risk_level} />
