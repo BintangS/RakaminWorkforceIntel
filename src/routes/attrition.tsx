@@ -35,6 +35,10 @@ function Attrition() {
 
   const filtered = useMemo(() => {
     if (filter === "review") return DB.filter((r) => r.needs_human_review);
+    if (filter === "tierA") return DB.filter((r) => r.performance_tier === "A");
+    if (filter === "tierB") return DB.filter((r) => r.performance_tier === "B");
+    if (filter === "tierC") return DB.filter((r) => r.performance_tier === "C");
+    if (filter === "tierD") return DB.filter((r) => r.performance_tier === "D");
     if (filter === "all") return DB;
     return DB.filter((r) => r.risk_level === filter);
   }, [filter]);
