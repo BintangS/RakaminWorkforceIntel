@@ -139,6 +139,7 @@ function Attrition() {
                 </td>
                 <td className="px-3 py-2.5" style={{ color: "var(--tx2)" }}>{r.branch}</td>
                 <td className="px-3 py-2.5" style={{ color: "var(--tx2)" }}>{r.job_title_normalized}</td>
+                <td className="px-3 py-2.5"><TierBadge tier={r.performance_tier} /></td>
                 <td className="px-3 py-2.5">
                   <div className="flex items-center gap-2">
                     <RiskBadge level={r.risk_level} />
