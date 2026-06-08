@@ -177,7 +177,33 @@ function EmployeeDetail() {
           </div>
         </Section>
 
+        <Section title="Performance Tier">
+          {r.performance_tier ? (() => {
+            const tier = r.performance_tier;
+            const col = tier === "A" ? "var(--ac)" : tier === "B" ? "var(--in)" : tier === "C" ? "var(--wn)" : "var(--dg)";
+            const bg = tier === "A" ? "var(--ac2)" : tier === "B" ? "var(--in2)" : tier === "C" ? "var(--wn2)" : "var(--dg2)";
+            return (
+              <div className="rounded-md border p-3" style={{ background: bg, borderColor: `${col}33` }}>
+                <div className="flex items-center gap-2.5">
+                  <span className="display rounded-md px-2.5 py-1 text-[16px] font-extrabold" style={{ background: col, color: "var(--bg)" }}>{tier}</span>
+                  <span className="text-[13px] font-semibold" style={{ color: col }}>{r.performance_tier_label}</span>
+                  {r.performance_score_normalized != null && (
+                    <span className="mono text-[12px]" style={{ color: "var(--tx3)" }}>· score {r.performance_score_normalized}/100</span>
+                  )}
+                </div>
+                {r.performance_action && (
+                  <div className="mt-2 text-[12.5px]" style={{ color: "var(--tx2)" }}>→ {r.performance_action}</div>
+                )}
+                <div className="mt-2 text-[11px]" style={{ color: "var(--tx3)" }}>
+                  Bands: A 85–100 (Exceed → Promote) · B 70–84 (Meets → Internal Movement) · C 55–69 (Below → PIP if no improvement) · D 0–54 (Poor → PIP)
+                </div>
+              </div>
+            );
+          })() : <span className="italic" style={{ color: "var(--tx3)" }}>No tier data</span>}
+        </Section>
+
         <Section title="Recommended Actions" last>
+
           <div className="flex flex-wrap gap-2">
             {r.risk_level === "High" && <Btn primary>📋 Schedule Retention Talk</Btn>}
             {r.needs_human_review && <Btn>⚑ Flag for HR Review</Btn>}
